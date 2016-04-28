@@ -4,7 +4,11 @@ Ensemble nouvel(Nat capacite)
 {
 	Ensemble n;
 	
-	n.valeurs = (E *) malloc(capacite * sizeof(E));
+	if( capacite > 0 )
+		n.valeurs = (E *) malloc(capacite * sizeof(E));
+	else
+		n.valeurs = NULL;
+		
 	n.taille = 0;
 	
 	if( n.valeurs == NULL ) //En cas d'erreur de l'allocation

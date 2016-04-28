@@ -31,4 +31,7 @@ E max(Ensemble e);
 Ensemble u(Ensemble e1, Ensemble e2);
 Ensemble inter(Ensemble e1, Ensemble e2); 
 
+posit_n position(Ensemble e, E x);
+Ensemble dup(Ensemble s, Ensemble d);
+
 #endif

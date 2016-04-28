@@ -4,13 +4,17 @@ Ensemble nouvel(Nat capacite)
 {
 	Ensemble n;
 	
-	n.valeurs = (E *) malloc(capacite * sizeof(E));
+	if( capacite > 0 )
+		n.valeurs = (E *) malloc(capacite * sizeof(E));
+	else
+		n.valeurs = NULL;
+		
 	n.taille = 0;
 	
 	if( n.valeurs == NULL ) //En cas d'erreur de l'allocation
 		n.limite = 0;
-	
-	n.limite = capacite;
+	else
+		n.limite = capacite;
 	
 	return n;
 }
@@ -196,7 +200,7 @@ Ensemble u(Ensemble e1, Ensemble e2)
 	
 	if( e2.taille < 1 )
 	{
-		return dup(e1, nouvel(e1.taille));
+		return ( e1.taille < 1 ? nouvel(0) : dup(e1, nouvel(e1.taille)) );
 	}
 		
 	if( elem(e2, e1.valeurs[e1.taille - 1]) == vrai )
