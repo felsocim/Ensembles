@@ -11,28 +11,28 @@ Application nouvelle(Ensemble source, Ensemble but)
 	return n;
 }
 
-Bool drel(Relation r)
+Bool del_rel(Relation r)
 {
 	if( r == NULL )
 		return vrai;
 		
 	Relation t = r->suivant;
 	
-	del(r->antecedents);
+	del_ant(r->antecedents);
 	
 	free(r);
 	
-	return drel(t);
+	return del_rel(t);
 }
 
 Application reinit(Application a)
 {
-	drel(a.relation);
+	del_rel(a.relation);
 	
 	return a;
 }
 
-Relation trouver_im(Relation r, E y)
+Relation t_im(Relation r, E y)
 {
 	if( r == NULL )
 		return NULL;
@@ -40,21 +40,21 @@ Relation trouver_im(Relation r, E y)
 	if( r->image == y )
 		return r;
 		
-	return trouver_im(r->suivant, y);
+	return t_im(r->suivant, y);
 }
 
-Relation trouver_ant(Relation r, E x)
+Relation t_ant(Relation r, E x)
 {
 	if( r == NULL )
 		return NULL;
 		
-	if( r->antecedents.taille < 1 )
-		return trouver_ant(r->suivant, x);
+	if( r->antecedents == NULL )
+		return t_ant(r->suivant, x);
 		
-	if( elem(r->antecedents, x) == vrai )
+	if( elem_ant(r->antecedents, x) == vrai )
 		return r;
 	
-	return trouver_ant(r->suivant, x);
+	return t_ant(r->suivant, x);
 }
 	
 Application fonction(Application a, E x, E y)
@@ -65,16 +65,14 @@ Application fonction(Application a, E x, E y)
 	if( elem(a.arrivee, y) == faux )
 		return a;
 		
-	if( trouver_ant(a.relation, x) != NULL )
+	if( t_ant(a.relation, x) != NULL )
 		return a;
 	
 	Relation t = NULL;
 	
-	if( ( t = trouver_im(a.relation, y) ) != NULL )
+	if( ( t = t_im(a.relation, y) ) != NULL )
 	{		
-		t->antecedents = adj(t->antecedents, x);
-		
-		t = NULL;
+		t->antecedents = adj_ant(t->antecedents, x);
 		
 		return a;
 	}
@@ -82,8 +80,8 @@ Application fonction(Application a, E x, E y)
 	Relation n = (Relation) malloc( sizeof( struct s_rel ) );
 
 	n->image = y;
-	n->antecedents = nouvel(1);
-	n->antecedents = adj(n->antecedents, x);
+	n->antecedents = nouv_ant();
+	n->antecedents = adj_ant(n->antecedents, x);
 	n->suivant = a.relation;
 	
 	a.relation = n;
@@ -93,43 +91,33 @@ Application fonction(Application a, E x, E y)
 	
 E im(Application a, E x)
 {
-	Relation t = trouver_ant(a.relation, x);
+	Relation t = t_ant(a.relation, x);
 	
 	if( t != NULL )
 		return t->image;
 }
 
-Ensemble ant(Application a, E y)
+Antecedent ant(Application a, E y)
 {
-	Relation t = trouver_im(a.relation, y);
+	Relation t = t_im(a.relation, y);
 	
 	if( t != NULL )
 		return t->antecedents;
 		
-	return nouvel(0);
+	return NULL;
 }
 
-Ensemble ajout(Ensemble d, Ensemble s)
+Antecedent origines(Antecedent intermediaire, Relation r1)
 {
-	if( s.taille < 1 )
-		return d;
+	if( intermediaire == NULL )
+		return NULL;
 		
-	d = adj(d, s.valeurs[--s.taille]);
-	
-	return ajout(d, s);
-}
-
-Ensemble origines(Ensemble intermediaire, Relation r1)
-{
-	if( intermediaire.taille < 1 )
-		return nouvel(0);
-		
-	Relation t = trouver_im(r1, intermediaire.valeurs[--intermediaire.taille]); 
+	Relation t = t_im(r1, intermediaire->val); 
 	
 	if( t == NULL )
-		return origines(intermediaire, r1);
+		return origines(intermediaire->suivant, r1);
 		
-	return ajout(origines(intermediaire, r1), t->antecedents );
+	return ajout(origines(intermediaire->suivant, r1), t->antecedents );
 }
 
 Relation transfert(Relation r, Relation r1, Relation r2)
@@ -140,7 +128,7 @@ Relation transfert(Relation r, Relation r1, Relation r2)
 	if( r2 == NULL )
 		return r;
 		
-	if( r2->antecedents.taille < 1 )
+	if( r2->antecedents == NULL )
 		return transfert(r, r1, r2->suivant);
 		
 	Relation n = (Relation) malloc( sizeof( struct s_rel ) );
@@ -160,3 +148,7 @@ Application composition(Application f, Application g)
 	
 	return n;
 }
+
+
+	
+	

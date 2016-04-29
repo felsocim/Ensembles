@@ -66,6 +66,19 @@ Nat card(Ensemble e)
 	return e.taille;
 }
 
+Ensemble dup(Ensemble s, Ensemble d)
+{
+	if( s.taille >= 1 )
+	{
+		d.valeurs[s.taille - 1] = s.valeurs[s.taille - 1];
+		s.taille--;
+		d.taille++;
+		return dup(s,d);
+	}
+	
+	return d;
+}
+
 Ensemble adj(Ensemble e, E x)
 {
 	if( elem(e, x) == vrai )
@@ -79,12 +92,9 @@ Ensemble adj(Ensemble e, E x)
 		return e;
 	}	
 	
-	if( e.taille >= 0 )
-	{
-		e.valeurs = realloc(e.valeurs, ( e.taille + 1) * sizeof(E));
-		e.valeurs[e.taille] = x;
-		e.taille++;
-	}
+	e.valeurs = realloc(e.valeurs, ( e.taille + 1) * sizeof(E));
+	e.valeurs[e.taille] = x;
+	e.taille++;
 	
 	return e;
 }
@@ -150,33 +160,20 @@ void affiche(Ensemble e)
 {
 	if( e.taille < 1 )
 	{
-		printf(" vide \n");
+		printf("{ Ø }\n");
 		return;
 	}
 		
 	if( e.taille == 1 )
 	{
-		printf(" { %d } \n", e.valeurs[e.taille - 1]);
+		printf(" { %d }\n", e.valeurs[e.taille - 1]);
 		return;
 	}
 	
-	printf(" { %d } ", e.valeurs[e.taille - 1]);
+	printf(" { %d }", e.valeurs[e.taille - 1]);
 	e.taille--;
 	
 	affiche(e);
-}
-
-Ensemble dup(Ensemble s, Ensemble d)
-{
-	if( s.taille >= 1 )
-	{
-		d.valeurs[s.taille - 1] = s.valeurs[s.taille - 1];
-		s.taille--;
-		d.taille++;
-		return dup(s,d);
-	}
-	
-	return d;
 }
 
 Ensemble u(Ensemble e1, Ensemble e2)

@@ -1,28 +1,39 @@
-all : obj/enst0.o obj/ensemble.o obj/enst1.o obj/t_ensemble.o obj/application.o obj/appli.o
-	gcc -Wall -g -Werror -Wextra obj/enst0.o obj/ensemble.o -o bin/enst0
-	gcc -Wall -g -Werror -Wextra obj/enst1.o obj/t_ensemble.o -o bin/enst1
-	gcc -Wall -g -Werror -Wextra obj/appli.o obj/application.o obj/t_ensemble.o -o bin/appli
-	
-obj/ensemble.o : source/ensemble.c include/ensemble.h
-	gcc -c source/ensemble.c -o obj/ensemble.o
+#Compilateur
+CC = gcc
 
-obj/t_ensemble.o : source/t_ensemble.c include/ensemble.h
-	gcc -c source/t_ensemble.c -o obj/t_ensemble.o
-	
-obj/enst0.o : bin/enst0.c include/ensemble.h source/ensemble.c
-	gcc -c bin/enst0.c -o obj/enst0.o
-	
-obj/enst1.o : bin/enst1.c include/ensemble.h source/t_ensemble.c
-	gcc -c bin/enst1.c -o obj/enst1.o
-	
-obj/application.o : source/application.c include/application.h source/t_ensemble.c include/ensemble.h
-	gcc -c source/application.c -o obj/application.o
-	
-obj/appli.o : bin/appli.c include/application.h include/ensemble.h source/t_ensemble.c
-	gcc -c bin/appli.c -o obj/appli.o
+#Flags
+CFLAGS = -Wall -Werror -Wextra -g
+RM = rm -f
 
-clean:
-	rm -f obj/*.o
-	rm -f bin/enst0
-	rm -f bin/enst1
-	rm -f bin/appli
+#Choix de la représentation des ensembles
+#UTILISER: source/ensemble1.c pour les ensembles non-triés
+#		   source/ensemble2.c pour les ensembles triés
+EMODE_FILE = source/ensemble2.c
+EMODE = obj/ensemble2.o
+
+#Cibles
+all : non_trie_test other_tests
+
+ensemble1 : source/ensemble1.c include/ensemble.h include/base.h
+	$(CC) -c source/ensemble1.c -o obj/ensemble1.o
+
+ensemble2 : source/ensemble2.c include/ensemble.h include/base.h
+	$(CC) -c source/ensemble2.c -o obj/ensemble2.o
+	
+antecedent : source/antecedent.c include/antecedent.h include/base.h
+	$(CC) -c source/antecedent.c -o obj/antecedent.o
+	
+application : source/application.c include/application.h include/ensemble.h $(EMODE_FILE) include/base.h
+	$(CC) -c source/application.c -o obj/application.o
+	
+non_trie_test : bin/test_ens1.c ensemble1
+	$(CC) $(CFLAGS) bin/test_ens1.c obj/ensemble1.o -o Test1
+	
+other_tests : bin/test_ens2.c bin/test_app1.c ensemble1 ensemble2 antecedent application
+	$(CC) $(CFLAGS) bin/test_ens2.c $(EMODE) -o Test2
+	$(CC) $(CFLAGS) bin/test_app1.c $(EMODE) obj/antecedent.o obj/application.o -o Test3
+
+#Nettoyage
+clean :
+	$(RM) obj/*.o
+	$(RM) Test1 Test2 Test3

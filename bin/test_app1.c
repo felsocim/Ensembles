@@ -1,3 +1,6 @@
+#include "../include/base.h"
+#include "../include/ensemble.h"
+#include "../include/antecedent.h"
 #include "../include/application.h"
 
 int main(void)
@@ -96,19 +99,19 @@ int main(void)
 	printf("Image de 8 est %d\n", im(c, 8));
 	
 	printf("Antecedent(s) de 3 : ");
-	affiche(ant(c, 3));
+	affiche_ant(ant(c, 3));
 	
 	printf("Antecedent(s) de 4 : ");
-	affiche(ant(c, 4));
+	affiche_ant(ant(c, 4));
 	
 	printf("Antecedent(s) de 5 : ");
-	affiche(ant(c, 5));
+	affiche_ant(ant(c, 5));
 	
 	printf("Antecedent(s) de 6 : ");
-	affiche(ant(c, 6));
+	affiche_ant(ant(c, 6));
 	
 	printf("Antecedent(s) de 7 : ");
-	affiche(ant(c, 7));
+	affiche_ant(ant(c, 7));
 	
 	reinit(a);
 	

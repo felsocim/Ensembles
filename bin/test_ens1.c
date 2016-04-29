@@ -1,3 +1,4 @@
+#include "../include/base.h"
 #include "../include/ensemble.h"
 
 int main(void)
@@ -21,16 +22,6 @@ int main(void)
 	e = adj(e, 7);
 	
 	affiche(e);
-	
-	/*e = supp(&e, 1);
-	
-	e = supp(&e, 12);
-	
-	e = supp(&e, 777);
-	
-	affiche(e);
-	
-	del(e);*/
 	
 	/*Ensemble es = nouvel(3);
 	
@@ -62,16 +53,15 @@ int main(void)
 	
 	affiche(es);
 	
-	printf("Card(es) = %d\n\n", card(es));
-	
-	del(es);
+	printf("Card(es) = %d\n\n", card(es));*/
 	
 	
 	printf("Min(e) = %d\n", min(e));
 	
-	printf("Max(e) = %d\n", max(e));*/
+	printf("Max(e) = %d\n", max(e));
 	
-		
+	
+	
 	Ensemble e1 = nouvel(4);
 	
 	Ensemble e2 = nouvel(5);
@@ -91,7 +81,12 @@ int main(void)
 	
 	affiche(e2);
 	
+
+	
 	Ensemble res1 = u(e1, e2);
+
+	
+	Ensemble res2 = u(e, e1);
 	
 	affiche(res1);
 	
@@ -99,8 +94,13 @@ int main(void)
 	
 	printf("Max(u(e1,e2)) = %d\n", max(res1));
 	
+	affiche(res2);
 	
-	Ensemble res3 = inter(e1, e);
+	printf("Min(u(e,e1)) = %d\n", min(res2));
+	
+	printf("Max(u(e,e1)) = %d\n", max(res2));
+	
+	Ensemble res3 = inter(e1, e2);
 	
 	affiche(res3);
 	
@@ -116,7 +116,11 @@ int main(void)
 	
 	del(res1);
 	
+	del(res2);
+	
 	del(res3);
+	
+	//del(es);
 	
 	return 0;
 }

@@ -101,17 +101,14 @@ Nat place(Ensemble e, E x)
 	
 	if( x < e.valeurs[0] )
 		return 0;
-		
-	if( e.taille >= 1 )
+
+	if( x > e.valeurs[e.taille - 1] )
 	{
-		if( x > e.valeurs[e.taille - 1] )
-		{
-			return e.taille;
-		}
-		
-		e.taille--;
-		return place(e, x);
+		return e.taille;
 	}
+	
+	e.taille--;
+	return place(e, x);
 }	
 
 Ensemble adj(Ensemble e, E x)
@@ -177,17 +174,17 @@ void affiche(Ensemble e)
 {
 	if( e.taille < 1 )
 	{
-		printf(" vide \n");
+		printf("{ Ø }\n");
 		return;
 	}
 		
 	if( e.taille == 1 )
 	{
-		printf(" { %d } \n", e.valeurs[e.taille - 1]);
+		printf(" { %d }\n", e.valeurs[e.taille - 1]);
 		return;
 	}
 	
-	printf(" { %d } ", e.valeurs[e.taille - 1]);
+	printf(" { %d }", e.valeurs[e.taille - 1]);
 	e.taille--;
 	
 	affiche(e);
@@ -200,7 +197,7 @@ Ensemble u(Ensemble e1, Ensemble e2)
 	
 	if( e2.taille < 1 )
 	{
-		return ( e1.taille < 1 ? nouvel(0) : dup(e1, nouvel(e1.taille)) );
+		return dup(e1, nouvel(e1.taille));
 	}
 		
 	if( elem(e2, e1.valeurs[e1.taille - 1]) == vrai )
