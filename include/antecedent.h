@@ -1,3 +1,8 @@
+/**
+ * @file antecedent.h
+ * @author Marek Felšöci
+**/
+
 #ifndef __ANTECEDENT_H
 #define __ANTECEDENT_H
 

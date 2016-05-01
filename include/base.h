@@ -1,3 +1,9 @@
+/**
+ * @file base.h
+ * @author Marek Felšöci
+ * @brief Définition des types de base communs à tout le programme
+**/
+
 #ifndef __BASE_H
 #define __BASE_H
 

@@ -1,3 +1,8 @@
+/**
+ * @file application.h
+ * @author Marek Felšöci
+**/
+
 #ifndef __APPLICATION_H
 #define __APPLICATION_H
 
@@ -9,7 +14,7 @@ typedef struct s_rel {
 	E image;
 	Antecedent antecedents;
 	struct s_rel * suivant; } *Relation;
-	
+
 typedef struct s_app {
 	Ensemble depart;
 	Ensemble arrivee;

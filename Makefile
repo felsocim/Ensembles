@@ -1,18 +1,18 @@
-#Compilateur
 CC = gcc
-
-#Flags
 CFLAGS = -Wall -Werror -Wextra -g
 RM = rm -f
+DATETIME = $(date +%F_%H-%M-%S)
 
-#Choix de la représentation des ensembles
-#UTILISER: source/ensemble1.c pour les ensembles non-triés
-#		   source/ensemble2.c pour les ensembles triés
-EMODE_FILE = source/ensemble2.c
-EMODE = obj/ensemble2.o
+log : all
+	mkdir -p logs/$(DATETIME)
+	./NTEns_base > logs/$(DATETIME)/Log_NTEns_base.txt
+	./NTEns_op > logs/$(DATETIME)/Log_NTEns_op.txt
+	./NTEns_app > logs/$(DATETIME)/Log_NTEns_app.txt
+	./TEns_base > logs/$(DATETIME)/Log_TEns_base.txt
+	./TEns_op > logs/$(DATETIME)/Log_TEns_op.txt
+	./TEns_app > logs/$(DATETIME)/Log_TEns_app.txt
 
-#Cibles
-all : non_trie_test other_tests
+all : tests_non_tries tests_tries
 
 ensemble1 : source/ensemble1.c include/ensemble.h include/base.h
 	$(CC) -c source/ensemble1.c -o obj/ensemble1.o
@@ -26,14 +26,19 @@ antecedent : source/antecedent.c include/antecedent.h include/base.h
 application : source/application.c include/application.h include/ensemble.h $(EMODE_FILE) include/base.h
 	$(CC) -c source/application.c -o obj/application.o
 	
-non_trie_test : bin/test_ens1.c ensemble1
-	$(CC) $(CFLAGS) bin/test_ens1.c obj/ensemble1.o -o Test1
+tests_non_tries : bin/test_ensembles_base.c bin/test_operations_ensemblistes.c bin/test_applications_composition.c ensemble1 antecedent application
+	$(CC) $(CFLAGS) bin/test_ensembles_base.c obj/ensemble1.o -o NTEns_base
+	$(CC) $(CFLAGS) bin/test_operations_ensemblistes.c obj/ensemble1.o -o NTEns_op
+	$(CC) $(CFLAGS) bin/test_applications_composition.c obj/ensemble1.o obj/antecedent.o obj/application.o -o NTEns_app
 	
-other_tests : bin/test_ens2.c bin/test_app1.c ensemble1 ensemble2 antecedent application
-	$(CC) $(CFLAGS) bin/test_ens2.c $(EMODE) -o Test2
-	$(CC) $(CFLAGS) bin/test_app1.c $(EMODE) obj/antecedent.o obj/application.o -o Test3
+tests_tries : bin/test_ensembles_base.c bin/test_operations_ensemblistes.c bin/test_applications_composition.c ensemble2 antecedent application
+	$(CC) $(CFLAGS) bin/test_ensembles_base.c obj/ensemble2.o -o TEns_base
+	$(CC) $(CFLAGS) bin/test_operations_ensemblistes.c obj/ensemble2.o -o TEns_op
+	$(CC) $(CFLAGS) bin/test_applications_composition.c obj/ensemble2.o obj/antecedent.o obj/application.o -o TEns_app
 
-#Nettoyage
 clean :
 	$(RM) obj/*.o
-	$(RM) Test1 Test2 Test3
+	$(RM) NTEns_base NTEns_op NTEns_app TEns_base TEns_op TEns_app
+
+clean_logs :
+	$(RM) -r logs/*
