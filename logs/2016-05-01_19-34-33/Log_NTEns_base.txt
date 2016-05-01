@@ -1,0 +1,14 @@
+Ensemble e : { 1278 } { 12 } { 0 } { -23 } { 57 } { 127 } { 6 } { 45 }
+Cardinal de e : 8
+Minimum de e : -23
+Maximum de e : 1278
+Ensemble e : { 4096 } { 256 } { 123 } { 55 } { 1278 } { 12 } { 0 } { -23 } { 57 } { 127 } { 6 } { 45 }
+Cardinal de e : 12
+Minimum de e : -23
+Maximum de e : 4096
+Ensemble e : { Ø } 
+Cardinal de e : 0
+Ensemble e : { 50 } { 40 } { 30 } { -20 } { 10 }
+Cardinal de e : 5
+Minimum de e : -20
+Maximum de e : 50

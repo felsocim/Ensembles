@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -g
 RM = rm -f
-DATETIME = $(date +%F_%H-%M-%S)
+DATETIME = `date +%F_%H-%M-%S`
 
 log : all
 	mkdir -p logs/$(DATETIME)
