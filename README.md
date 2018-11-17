@@ -14,7 +14,7 @@ Pour effectuer un jeu de tests de base et produire des fichiers de log correspon
 
 `make log`
 
-Vous retrouverez les fichiers de log produits dans le dossier **log** qui sera créé dans le répertoire racine.
+Vous retrouverez les fichiers de log produits dans le dossier **logs** qui sera créé dans le répertoire racine.
 
 ## Utilisation de la bibliothèque
 
