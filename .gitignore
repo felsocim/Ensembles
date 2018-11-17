@@ -1,0 +1,16 @@
+# Objects
+obj/*
+
+# Logs
+logs/*
+
+# Binaries
+NTEns_base
+NTEns_op
+NTEns_app
+TEns_base
+TEns_op
+TEns_app
+
+# Documentation
+doc/*
